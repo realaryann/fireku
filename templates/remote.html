@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fire Stick Remote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Fire Stick Remote</h1>
+    <form method="POST">
+        <div class="remote">
+            <div class="row">
+                <span class="spacer"></span>
+                <button name="button" value="up">▲</button>
+                <span class="spacer"></span>
+            </div>
+            <div class="row">
+                <button name="button" value="left">◀</button>
+                <button name="button" value="select">OK</button>
+                <button name="button" value="right">▶</button>
+            </div>
+            <div class="row">
+                <span class="spacer"></span>
+                <button name="button" value="down">▼</button>
+                <span class="spacer"></span>
+            </div>
+            <hr>
+            <div class="row">
+                <button name="button" value="home">Home</button>
+                <button name="button" value="back">Back</button>
+                <button name="button" value="menu">Menu</button>
+            </div>
+            <div class="row">
+                <button name="button" value="play_pause">Play/Pause</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
