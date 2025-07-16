@@ -2,18 +2,30 @@ body {
     font-family: sans-serif;
     text-align: center;
     margin-top: 50px;
+    background-color:#2e2e2e
 }
 
 h1 {
     margin-bottom: 40px;
+    color: white
+}
+
+p {
+    color: white
+}
+
+h3{
+    display: inline-block;
+    margin-right: 10px;
+    color: white;
 }
 
 .remote {
     display: inline-block;
     padding: 20px;
-    border: 2px solid #333;
-    border-radius: 20px;
-    background-color: #f4f4f4;
+    border: 4px solid #0d0101;
+    border-radius: 30px;
+    background-color: #0b1e42;
 }
 
 .row {
@@ -21,13 +33,13 @@ h1 {
 }
 
 button {
-    width: 80px;
+    width: 90px;
     height: 50px;
     font-size: 16px;
     margin: 5px;
     border-radius: 8px;
     border: none;
-    background-color: #222;
+    background-color: #2e2e2e;
     color: white;
     cursor: pointer;
 }
