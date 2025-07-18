@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, url_for
 import logging
 import ipaddress
 import subprocess
@@ -39,6 +39,10 @@ def send_keycode(keycode, FIRESTICK_IP):
     res = subprocess.run(["adb", "shell", "input", "keyevent", str(keycode)], capture_output=True)
 
 
+@app.route('/remote', methods=["GET", "POST"])
+def remote_page():
+    return render_template("firetv.html")
+
 @app.route('/', methods = ["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -50,17 +54,10 @@ def index():
             return redirect("/")
         else:
             if verify_ipv4(FIRESTICK_IP):
-                return redirect("/")
+                return redirect(url_for("remote_page"))
             else:
                 flash("IPV4 address syntax is incorrect")
                 return redirect("/")
-        if button in KEYS:
-            try:
-                send_key(KEYS[button], FIRESTICK_IP)
-            except Exception as e:
-                logger.error(f"{e}: Not able to communicate message to Fire TV")
-
-        return redirect('/')
     return render_template("remote.html")
 
 
