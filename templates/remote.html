@@ -1,45 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Fire Stick Remote</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Fire TV Remote Control</title>
 </head>
 <body>
-    <h1>Fire Stick Remote</h1>
-    <p>for when the remote's just a little farther away, or broken, or lost.</p>
-    <hr>
-    <form method="POST">
-        <div>
-            <h3>Fire Stick IP</h3>
-            <input type="text" name="ip" id="ip">
+    <div class="container">
+        <div class="header">
+            <h1>Fire TV Remote Control</h1>
+            <p>Control your Fire TV directly from your browser with this sleek virtual remote</p>
         </div>
-        <div class="remote">
-            <div class="row">
-                <span class="spacer"></span>
-                <button name="button" value="up">▲</button>
-                <span class="spacer"></span>
-            </div>
-            <div class="row">
-                <button name="button" value="left">◀</button>
-                <button name="button" value="select">OK</button>
-                <button name="button" value="right">▶</button>
-            </div>
-            <div class="row">
-                <span class="spacer"></span>
-                <button name="button" value="down">▼</button>
-                <span class="spacer"></span>
-            </div>
-            <hr>
-            <div class="row">
-                <button name="button" value="back">Back</button>
-                <button name="button" value="home">Home</button>
-                <button name="button" value="menu">Menu</button>
-            </div>
-            <div class="row">
-                <button name="button" value="play_pause">Play/Pause</button>
+
+        <div class="connection-panel">
+            {% with messages = get_flashed_messages() %} 
+            {% if messages %} 
+                {% for msg in messages %} 
+                    <p id="flash">{{msg}}</p>
+                    <br>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form action="#" method="post">
+                <div id="connectionForm">
+                    <div class="input-group">
+                        <label for="ipAddress">Fire TV IP Address</label>
+                        <input type="text" name="ip" id="ipAddress" placeholder="192.168.1.100">
+                        <div class="input-help">Find this in Fire TV Settings → My Fire TV → About → Network</div>
+                    </div>
+                    <button class="btn btn-primary" id="connectBtn">
+                        <span>📡</span>
+                        <span id="connectBtnText">Connect</span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="connectionInfo" class="hidden">
+                <div class="connection-status">
+                    <div class="info">
+                        <p>Connected to:</p>
+                        <p id="connectedIP"></p>
+                    </div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <button class="btn btn-outline" id="disconnectBtn">
+                    <span>📡</span>
+                    Disconnect
+                </button>
             </div>
         </div>
-    <hr>
-    </form>
+
+        <div class="remote-container">
+            <div class="remote">
+                <div class="remote-header">
+                    <h2>
+                        <span>📺</span>
+                        Fire TV Remote
+                    </h2>
+                    <div class="divider"></div>
+                </div>
+
+                <!-- Power Button -->
+                <div class="button-row">
+                    <button class="remote-btn power lg" data-action="Power">⏻</button>
+                </div>
+
+                <!-- Top Row -->
+                <div class="button-row">
+                    <button class="remote-btn" data-action="Home">🏠</button>
+                    <button class="remote-btn" data-action="Back">↶</button>
+                    <button class="remote-btn" data-action="Menu">☰</button>
+                </div>
+
+                <!-- Navigation Pad -->
+                <div class="nav-pad">
+                    <div class="nav-up">
+                        <button class="remote-btn nav" data-action="Up">↑</button>
+                    </div>
+                    <div class="nav-middle">
+                        <button class="remote-btn nav" data-action="Left">←</button>
+                        <button class="remote-btn primary lg" data-action="Select">⚫</button>
+                        <button class="remote-btn nav" data-action="Right">→</button>
+                    </div>
+                    <div class="nav-down">
+                        <button class="remote-btn nav" data-action="Down">↓</button>
+                    </div>
+                </div>
+
+                <!-- Media Controls -->
+                <div class="button-row">
+                    <button class="remote-btn" data-action="Previous">⏮</button>
+                    <button class="remote-btn primary" id="playPauseBtn" data-action="Play">▶</button>
+                    <button class="remote-btn" data-action="Next">⏭</button>
+                </div>
+
+                <!-- Volume Controls -->
+                <div class="volume-controls">
+                    <button class="remote-btn" id="volumeDownBtn" data-action="Volume Down">🔊</button>
+                    <div class="volume-display" id="volumeDisplay">50%</div>
+                    <button class="remote-btn" id="volumeUpBtn" data-action="Volume Up">🔊</button>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="button-row">
+                    <button class="remote-btn primary" data-action="Voice Search">🎤</button>
+                    <button class="remote-btn" data-action="Search">🔍</button>
+                    <button class="remote-btn" data-action="Settings">⚙️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <h4 id="toastTitle"></h4>
+        <p id="toastMessage"></p>
+    </div>
 </body>
 </html>

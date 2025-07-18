@@ -1,11 +1,15 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 import logging
+import ipaddress
 import subprocess
 
 app = Flask(__name__)
+app.secret_key="test"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
+
+FIRESTICK_IP = 0
 
 KEYS = {
     "up": 19,
@@ -19,17 +23,37 @@ KEYS = {
     "play_pause": 85
 }
 
-def send_key(keycode, FIRESTICK_IP):
-    subprocess.run(["adb", "connect", FIRESTICK_IP], capture_output=True)
-    subprocess.run(["adb", "shell", "input", "keyevent", str(keycode)], capture_output=True)
+def verify_ipv4(FIRESTICK_IP):
+    FIRESTICK_IP=FIRESTICK_IP.strip()
+    try:
+        ipaddress.IPv4Address(FIRESTICK_IP)
+        logger.info("IPV4 address syntax verified")
+        return True
+    except Exception as e:
+        logger.error(f"{Exception}: IPV4 address syntax not verified")
+        return False
+
+
+def send_keycode(keycode, FIRESTICK_IP):
+    res = subprocess.run(["adb", "connect", FIRESTICK_IP], capture_output=True)
+    res = subprocess.run(["adb", "shell", "input", "keyevent", str(keycode)], capture_output=True)
 
 
 @app.route('/', methods = ["GET", "POST"])
 def index():
     if request.method == "POST":
-        button = request.form.get("button")
+        #button = request.form.get("button")
         #TODO Clean the IP, raise errors if bad
-        FIRESTICK_IP = request.form["ip"]    
+        FIRESTICK_IP = request.form["ip"] 
+        if FIRESTICK_IP == "":
+            flash("You must first connect to your Fire TV with a valid IP")
+            return redirect("/")
+        else:
+            if verify_ipv4(FIRESTICK_IP):
+                return redirect("/")
+            else:
+                flash("IPV4 address syntax is incorrect")
+                return redirect("/")
         if button in KEYS:
             try:
                 send_key(KEYS[button], FIRESTICK_IP)
