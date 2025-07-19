@@ -9,7 +9,7 @@ app.secret_key="test"
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
-FIRESTICK_IP = 0
+FIRESTICK_IP = None
 
 KEYS = {
     "up": 19,
@@ -41,6 +41,9 @@ def send_keycode(keycode, FIRESTICK_IP):
 
 @app.route('/remote', methods=["GET", "POST"])
 def remote_page():
+    if FIRESTICK_IP == None:
+        return redirect(url_for("index"))
+    
     return render_template("firetv.html")
 
 @app.route('/', methods = ["GET", "POST"])
@@ -48,8 +51,9 @@ def index():
     if request.method == "POST":
         #button = request.form.get("button")
         #TODO Clean the IP, raise errors if bad
+        global FIRESTICK_IP 
         FIRESTICK_IP = request.form["ip"] 
-        if FIRESTICK_IP == "":
+        if FIRESTICK_IP == None:
             flash("You must first connect to your Fire TV with a valid IP")
             return redirect("/")
         else:
