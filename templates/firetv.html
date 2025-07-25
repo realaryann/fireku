@@ -7,64 +7,66 @@
     <title>Fire TV Remote Control</title>
 </head>
 <body>
-    <div class="remote-container">
-            <div class="remote">
-                <div class="remote-header">
-                    <h2>
-                        <span>📺</span>
-                        Fire TV Remote
-                    </h2>
-                    <div class="divider"></div>
-                </div>
-
-                <!-- Power Button -->
-                <div class="button-row">
-                    <button class="remote-btn power lg" data-action="Power">⏻</button>
-                </div>
-
-                <!-- Top Row -->
-                <div class="button-row">
-                    <button class="remote-btn" data-action="Home">🏠</button>
-                    <button class="remote-btn" data-action="Back">↶</button>
-                    <button class="remote-btn" data-action="Menu">☰</button>
-                </div>
-
-                <!-- Navigation Pad -->
-                <div class="nav-pad">
-                    <div class="nav-up">
-                        <button class="remote-btn nav" data-action="Up">↑</button>
+    <form action="#" method="post">
+        <div class="remote-container">
+                <div class="remote">
+                    <div class="remote-header">
+                        <h2>
+                            <span>📺</span>
+                            Fire TV Remote
+                        </h2>
+                        <div class="divider"></div>
                     </div>
-                    <div class="nav-middle">
-                        <button class="remote-btn nav" data-action="Left">←</button>
-                        <button class="remote-btn primary lg" data-action="Select">⚫</button>
-                        <button class="remote-btn nav" data-action="Right">→</button>
+
+                    <!-- Power Button -->
+                    <div class="button-row">
+                        <button name="button" value="power" class="remote-btn power lg" data-action="Power">⏻</button>
                     </div>
-                    <div class="nav-down">
-                        <button class="remote-btn nav" data-action="Down">↓</button>
+
+                    <!-- Top Row -->
+                    <div class="button-row">
+                        <button name="button" value="home" class="remote-btn" data-action="Home">🏠</button>
+                        <button name="button" value="back" class="remote-btn" data-action="Back">↶</button>
+                        <button name="button" value="menu" class="remote-btn" data-action="Menu">☰</button>
                     </div>
-                </div>
 
-                <!-- Media Controls -->
-                <div class="button-row">
-                    <button class="remote-btn" data-action="Previous">⏮</button>
-                    <button class="remote-btn primary" id="playPauseBtn" data-action="Play">▶</button>
-                    <button class="remote-btn" data-action="Next">⏭</button>
-                </div>
+                    <!-- Navigation Pad -->
+                    <div class="nav-pad">
+                        <div class="nav-up">
+                            <button name="button" value="up" class="remote-btn nav" data-action="Up">↑</button>
+                        </div>
+                        <div class="nav-middle">
+                            <button name="button" value="left" class="remote-btn nav" data-action="Left">←</button>
+                            <button name="button" value="select" class="remote-btn primary lg" data-action="Select">⚫</button>
+                            <button name="button" value="right" class="remote-btn nav" data-action="Right">→</button>
+                        </div>
+                        <div class="nav-down">
+                            <button name="button" name= "down" class="remote-btn nav" data-action="Down">↓</button>
+                        </div>
+                    </div>
 
-                <!-- Volume Controls -->
-                <div class="volume-controls">
-                    <button class="remote-btn" id="volumeDownBtn" data-action="Volume Down">🔊</button>
-                    <div class="volume-display" id="volumeDisplay">50%</div>
-                    <button class="remote-btn" id="volumeUpBtn" data-action="Volume Up">🔊</button>
-                </div>
+                    <!-- Media Controls -->
+                    <div class="button-row">
+                        <button name="button" value="prev" class="remote-btn" data-action="Previous">⏮</button>
+                        <button name="button" value="play" class="remote-btn primary" id="playPauseBtn" data-action="Play">▶</button>
+                        <button name="button" value="next" class="remote-btn" data-action="Next">⏭</button>
+                    </div>
 
-                <!-- Bottom Row -->
-                <div class="button-row">
-                    <button class="remote-btn primary" data-action="Voice Search">🎤</button>
-                    <button class="remote-btn" data-action="Search">🔍</button>
-                    <button class="remote-btn" data-action="Settings">⚙️</button>
+                    <!-- Volume Controls -->
+                    <div class="volume-controls">
+                        <button name="button" value="voldown" class="remote-btn" id="volumeDownBtn" data-action="Volume Down">🔊</button>
+                        <div class="volume-display" id="volumeDisplay">50%</div>
+                        <button name="button" value="volup" class="remote-btn" id="volumeUpBtn" data-action="Volume Up">🔊</button>
+                    </div>
+
+                    <!-- Bottom Row -->
+                    <div class="button-row">
+                        <button name="button" value="vsearch" class="remote-btn primary" data-action="Voice Search">🎤</button>
+                        <button name="button" value="search" class="remote-btn" data-action="Search">🔍</button>
+                        <button name="button" value= "settings" class="remote-btn" data-action="Settings">⚙️</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </body>

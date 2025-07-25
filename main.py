@@ -23,7 +23,7 @@ KEYS = {
     "play_pause": 85
 }
 
-def verify_ipv4(FIRESTICK_IP):
+def verify_ipv4(FIRESTICK_IP) -> bool:
     FIRESTICK_IP=FIRESTICK_IP.strip()
     try:
         ipaddress.IPv4Address(FIRESTICK_IP)
@@ -34,8 +34,15 @@ def verify_ipv4(FIRESTICK_IP):
         return False
 
 
-def send_keycode(keycode, FIRESTICK_IP):
+def establish_connection(FIRESTICK_IP) -> bool:
     res = subprocess.run(["adb", "connect", FIRESTICK_IP], capture_output=True)
+    if res.returncode != 0 or ("failed" in str(res.stdout)):
+        logger.error("adb connect failed")
+        return False
+    return True
+
+
+def send_keycode(keycode):
     res = subprocess.run(["adb", "shell", "input", "keyevent", str(keycode)], capture_output=True)
 
 
@@ -43,6 +50,11 @@ def send_keycode(keycode, FIRESTICK_IP):
 def remote_page():
     if FIRESTICK_IP == None:
         return redirect(url_for("index"))
+
+    if request.method == "POST":
+        if establish_connection(FIRESTICK_IP):
+            logger.debug(f"Sending Key: {request.form['button']}")
+            send_keycode(KEYS[request.form["button"]])
     
     return render_template("firetv.html")
 
