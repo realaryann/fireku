@@ -20,7 +20,7 @@ KEYS = {
     "back": 4,
     "home": 3,
     "menu": 82,
-    "play_pause": 85,
+    "play": 85,
     "volup": 24,
     "voldown": 25,
     "mute": 164,
