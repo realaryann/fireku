@@ -20,7 +20,11 @@ KEYS = {
     "back": 4,
     "home": 3,
     "menu": 82,
-    "play_pause": 85
+    "play_pause": 85,
+    "volup": 24,
+    "voldown": 25,
+    "mute": 164,
+    "power": 26.
 }
 
 def verify_ipv4(FIRESTICK_IP) -> bool:
