@@ -52,11 +52,7 @@ def send_keycode(keycode):
 
 @app.route('/remote', methods=["GET", "POST"])
 def remote_page():
-    if FIRESTICK_IP == None:
-        return redirect(url_for("index"))
-
     if request.method == "POST":
-        if establish_connection(FIRESTICK_IP):
             logger.debug(f"Sending Key: {request.form['button']}")
             send_keycode(KEYS[request.form["button"]])
     
@@ -74,10 +70,15 @@ def index():
             return redirect("/")
         else:
             if verify_ipv4(FIRESTICK_IP):
-                return redirect(url_for("remote_page"))
+                if establish_connection(FIRESTICK_IP):
+                    return redirect(url_for("remote_page"))
+                else:
+                    flash(f"Unable to establish connection with {FIRESTICK_IP}")
+                    return redirect('/')
             else:
                 flash("IPV4 address syntax is incorrect")
                 return redirect("/")
+            
     return render_template("remote.html")
 
 
