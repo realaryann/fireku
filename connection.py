@@ -1,6 +1,7 @@
 import ipaddress
 import logging
 import subprocess
+import socket
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -16,8 +17,15 @@ class ConnectionHandler:
             logger.error(f"{Exception}: IPV4 address syntax not verified")
             return False
 
+    def roku_establish_connection(self, ROKU_IP) -> bool:
+        try:
+            socket.create_connection((ROKU_IP, 8060), timeout=1)
+            return True
+        except Exception as e:
+            logger.error(e)
+            return False
 
-    def establish_connection(self, FIRESTICK_IP) -> bool:
+    def firetv_establish_connection(self, FIRESTICK_IP) -> bool:
         res = subprocess.run(["adb", "connect", FIRESTICK_IP], capture_output=True)
         logger.error(res.stdout)
         if res.returncode != 0 or ("failed" in str(res.stdout)) or ("missing" in str(res.stdout)):

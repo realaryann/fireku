@@ -1,0 +1,329 @@
+/* Roku Remote Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #1a1a2e;
+    padding: 32px;
+}
+
+.remote {
+    background-color: #2d2d3a;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #404040;
+    width: 280px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.roku-text {
+    color: #6f2dff;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.roku-line {
+    width: 48px;
+    height: 4px;
+    background-color: #6f2dff;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* Power Button */
+.power-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.power-button {
+    width: 48px;
+    height: 48px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+.power-icon {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    position: relative;
+}
+
+.power-icon-line {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 12px;
+    background-color: #ffffff;
+}
+
+/* Directional Pad */
+.dpad-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.dpad {
+    position: relative;
+    width: 128px;
+    height: 128px;
+}
+
+.dpad-button {
+    position: absolute;
+    background-color: #6f2dff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    outline: none;
+    color: white;
+    font-weight: bold;
+}
+
+.dpad-up {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+}
+
+.dpad-left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+}
+
+.dpad-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    font-size: 14px;
+}
+
+.dpad-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+}
+
+.dpad-down {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+}
+
+/* Arrow Shapes */
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid white;
+}
+
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 12px solid white;
+}
+
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 12px solid white;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid white;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.nav-button {
+    width: 64px;
+    height: 40px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* Media Buttons */
+.media-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.media-button {
+    width: 48px;
+    height: 40px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* Volume Buttons */
+.volume-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.volume-button {
+    width: 64px;
+    height: 40px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* Channel Buttons */
+.channel-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.channel-button {
+    width: 80px;
+    height: 40px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* Special Buttons */
+.special-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.special-button {
+    height: 40px;
+    background-color: #404040;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* Hover and Active States */
+button:hover {
+    background-color: #555555;
+}
+
+button:active {
+    background-color: #666666;
+}
+
+/* Special hover states for purple buttons (directional pad) */
+.dpad-button:hover {
+    background-color: #8a4fff;
+}
+
+.dpad-button:active {
+    background-color: #5a26cc;
+}

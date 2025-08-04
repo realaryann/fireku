@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/firetv_style.css">
     <title>Fire TV Remote Control</title>
 </head>
 <body>
-    <div class="container">
+    <div class="container">  
         <div class="header">
-            <h1>Fire TV Remote Control</h1>
-            <p>Control your Fire TV directly from your browser with this sleek virtual remote</p>
+            <h1>Fire TV + <span id="rokutag">Roku</span> Web Remote</h1>
+            <p>Control your Fire TV or Roku directly from your browser with this sleek virtual remote</p>
         </div>
 
         <div class="connection-panel">
@@ -26,9 +26,10 @@
             <form action="#" method="post">
                 <div id="connectionForm">
                     <div class="input-group">
-                        <label for="ipAddress">Fire TV IP Address</label>
+                        <label for="ipAddress">Fire TV / Roku IP Address</label>
                         <input type="text" name="ip" id="ipAddress" placeholder="192.168.1.100">
-                        <div class="input-help">Find this in Fire TV Settings → My Fire TV → About → Network</div>
+                        <div class="input-help">Fire TV Settings → My Fire TV → About → Network</div>
+                        <div class="input-help">Find this in Roku TV Settings → Network → About</div>
                     </div>
                     <button class="btn btn-primary" id="connectBtn">
                         <span>📡</span>
@@ -51,6 +52,8 @@
                 </button>
             </div>
         </div>
+
+        
 
         <div class="remote-container">
             <div class="remote">

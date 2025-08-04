@@ -1,6 +1,7 @@
 FIRESTICK_IP = None
+ROKU_IP = None
 
-KEYS = {
+FIRE_KEYS = {
     "up": 19,
     "down": 20,
     "left": 21,

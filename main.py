@@ -9,12 +9,39 @@ app.secret_key="test"
 
 Conn = ConnectionHandler()
 
+def cycle_ips():
+    # Must find out whether IP is Fire TV or Roku
+    global FIRESTICK_IP
+    global ROKU_IP
+    potential_ip = request.form["ip"]
+    if potential_ip == None:
+        flash("You must first connect to your Fire TV / Roku with a valid IP")
+    else:
+        if Conn.verify_ipv4(potential_ip):
+            # Check for Fire TV
+            if Conn.firetv_establish_connection(potential_ip):
+                FIRESTICK_IP=potential_ip
+                return "firetv"
+            # Check for Roku
+            elif Conn.roku_establish_connection(potential_ip):
+                ROKU_IP=potential_ip
+                return "roku"
+            else:
+                flash(f"Unable to establish connection to {potential_ip}")
+                return ""
+        else:
+            flash("IPV4 address syntax is incorrect")
+            return ""
+
+@app.route("/roku", methods=["GET", "POST"])
+def roku_page():
+    return render_template("roku.html")
 
 @app.route('/remote', methods=["GET", "POST"])
-def remote_page():
+def firetv_page():
     if request.method == "POST":
-            logger.debug(f"Sending Key: {request.form['button']}")
-            Conn.send_keycode(KEYS[request.form["button"]])
+        logger.debug(f"Sending Key: {request.form['button']}")
+        Conn.send_keycode(FIRE_KEYS[request.form["button"]])
     
     return render_template("firetv.html")
 
@@ -22,25 +49,14 @@ def remote_page():
 @app.route('/', methods = ["GET", "POST"])
 def index():
     if request.method == "POST":
-        #button = request.form.get("button")
-        #TODO Clean the IP, raise errors if bad
-        global FIRESTICK_IP 
-        FIRESTICK_IP = request.form["ip"] 
-        if FIRESTICK_IP == None:
-            flash("You must first connect to your Fire TV with a valid IP")
-            return redirect("/")
+        ret = cycle_ips()
+        if ret == "roku":
+            return redirect(url_for("roku_page"))
+        elif ret == "firetv":
+            return redirect(url_for("firetv_page"))
         else:
-            if Conn.verify_ipv4(FIRESTICK_IP):
-                if Conn.establish_connection(FIRESTICK_IP):
-                    return redirect(url_for("remote_page"))
-                else:
-                    flash(f"Unable to establish connection to {FIRESTICK_IP}")
-                    return redirect('/')
-            else:
-                flash("IPV4 address syntax is incorrect")
-                return redirect("/")
-            
-    return render_template("remote.html")
+            return redirect("/")
+    return render_template("index.html")
 
 
 if __name__ == "__main__":

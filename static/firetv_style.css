@@ -39,6 +39,14 @@ body {
     background-clip: text;
 }
 
+#rokutag {
+    background: purple;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+}
+
 .header p {
     font-size: 1.2rem;
     color: #a0a0a0;
