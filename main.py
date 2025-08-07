@@ -9,6 +9,7 @@ app.secret_key="test"
 
 Conn = ConnectionHandler()
 
+
 def cycle_ips():
     # Must find out whether IP is Fire TV or Roku
     global FIRESTICK_IP
@@ -33,15 +34,21 @@ def cycle_ips():
             flash("IPV4 address syntax is incorrect")
             return ""
 
+
 @app.route("/roku", methods=["GET", "POST"])
 def roku_page():
+    if request.method == "POST":
+        logger.debug(f"Sending Key: {request.form['button']}")
+        Conn.roku_send_keycode(ROKU_IP=ROKU_IP, keycode=request.form['button'])
+
     return render_template("roku.html")
+
 
 @app.route('/remote', methods=["GET", "POST"])
 def firetv_page():
     if request.method == "POST":
         logger.debug(f"Sending Key: {request.form['button']}")
-        Conn.send_keycode(FIRE_KEYS[request.form["button"]])
+        Conn.firetv_send_keycode(FIRE_KEYS[request.form["button"]])
     
     return render_template("firetv.html")
 
