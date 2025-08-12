@@ -38,8 +38,9 @@ def cycle_ips():
 @app.route("/roku", methods=["GET", "POST"])
 def roku_page():
     if request.method == "POST":
-        logger.debug(f"Sending Key: {request.form['button']}")
-        Conn.roku_send_keycode(ROKU_IP=ROKU_IP, keycode=request.form['button'])
+        if request.form['button'] in ROKU_KEYS:
+            logger.debug(f"Sending Key: {request.form['button']}")
+            Conn.roku_send_keycode(ROKU_IP=ROKU_IP, keycode=request.form['button'])
 
     return render_template("roku.html")
 

@@ -16,3 +16,20 @@ FIRE_KEYS = {
     "mute": 164,
     "power": 26.
 }
+
+ROKU_KEYS = {'Home' ,
+  'Rev',
+  'Fwd',
+  'Play',
+  'Select',
+  'Left',
+  'Right',
+  'Down',
+  'Up',
+  'Back',
+  'InstantReplay',
+  'Info',
+  'Backspace',
+  'Search',
+  'Enter'
+}
