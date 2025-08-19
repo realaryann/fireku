@@ -3,11 +3,63 @@ import logging
 import subprocess
 import socket
 import requests
+import xml.etree.ElementTree as ET
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 class ConnectionHandler:
+    def discover_roku(self):
+        # "HOST: 239.255.255.250:1900" means a multicast message header. SSDP is efficient so it doesn't use 
+        # broadcasting. Port 1900 is the ssdp port
+        msg = '\r\n'.join([
+            "M-SEARCH * HTTP/1.1",
+            "HOST: 239.255.255.250:1900",
+            "MAN: ssdp:discover",
+            "MX: 2",
+            "ST: roku:ecp",
+            '',''
+        ]).encode("utf-8")
+
+        # AF_INET = ipv4
+        # SOCK_DGRAM = UDP
+        # IPPROTO_UDP = udp
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        sock.settimeout(3)
+        sock.sendto(msg, ("239.255.255.250", 1900))
+
+        devices = []
+        try:
+            while True:
+                data, addr = sock.recvfrom(1024)
+                if b'roku:ecp' in data:
+                    response = data.decode("utf-8")
+                    devices.append(addr[0])
+            
+        except socket.timeout:
+            pass
+
+        for roku_ip in devices:
+            if self.roku_establish_connection(roku_ip):
+                print(self.get_roku_name(roku_ip))
+
+    
+    def get_roku_name(self,ip):
+        url = f'http://{ip}:8060/query/device-info'
+        try:
+            ret = requests.get(url, timeout=2)
+            print(ret.text)
+            if ret.status_code == 200:
+                root = ET.fromstring(ret.text)
+                name = root.find("friendly-device-name").text
+                return name
+            else:
+                return f"Error: {r.status_code}"
+        except Exception as e:
+            return f"Error: {e}"
+        
+
     def verify_ipv4(self, FIRESTICK_IP) -> bool:
         FIRESTICK_IP=FIRESTICK_IP.strip()
         try:

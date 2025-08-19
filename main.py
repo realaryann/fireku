@@ -18,6 +18,7 @@ def cycle_ips():
     if potential_ip == None:
         flash("You must first connect to your Fire TV / Roku with a valid IP")
     else:
+        Conn.discover_roku()
         if Conn.verify_ipv4(potential_ip):
             # Check for Fire TV
             if Conn.firetv_establish_connection(potential_ip):
