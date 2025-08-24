@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
+import ast
 from connection import *
 from keydefine import *
 
@@ -14,26 +15,34 @@ def cycle_ips():
     # Must find out whether IP is Fire TV or Roku
     global FIRESTICK_IP
     global ROKU_IP
-    potential_ip = request.form["ip"]
-    if potential_ip == None:
-        flash("You must first connect to your Fire TV / Roku with a valid IP")
-    else:
-        Conn.discover_roku()
-        if Conn.verify_ipv4(potential_ip):
-            # Check for Fire TV
-            if Conn.firetv_establish_connection(potential_ip):
-                FIRESTICK_IP=potential_ip
-                return "firetv"
-            # Check for Roku
-            elif Conn.roku_establish_connection(potential_ip):
-                ROKU_IP=potential_ip
-                return "roku"
-            else:
-                flash(f"Unable to establish connection to {potential_ip}")
-                return ""
-        else:
-            flash("IPV4 address syntax is incorrect")
-            return ""
+    """
+    # Check for Fire TV
+    if Conn.firetv_establish_connection(potential_ip):
+        FIRESTICK_IP=potential_ip
+        return "firetv"
+    """
+    # Check for Roku
+    Conn.discover_roku()
+    """
+    elif Conn.roku_establish_connection(potential_ip):
+        ROKU_IP=potential_ip
+        return "roku"
+    """
+
+@app.route("/choose_devices", methods=["GET","POST"])
+def choose_devices():
+    global ROKU_IP, FIRESTICK_IP
+    if request.method == "POST":
+        device_details = ast.literal_eval(request.form["device"])
+        if device_details["type"] == "roku":
+            ROKU_IP = device_details["ip"]
+            return redirect(url_for("roku_page"))
+        
+        elif device_details["type"] == "firetv":
+            return redirect(url_for("firetv_page"))
+
+    ret = cycle_ips()
+    return render_template("choose_devices.html", devices=Conn.device_ip_name)
 
 
 @app.route("/roku", methods=["GET", "POST"])
@@ -58,13 +67,8 @@ def firetv_page():
 @app.route('/', methods = ["GET", "POST"])
 def index():
     if request.method == "POST":
-        ret = cycle_ips()
-        if ret == "roku":
-            return redirect(url_for("roku_page"))
-        elif ret == "firetv":
-            return redirect(url_for("firetv_page"))
-        else:
-            return redirect("/")
+        return redirect(url_for("choose_devices"))
+                        
     return render_template("index.html")
 
 

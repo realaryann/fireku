@@ -10,6 +10,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 class ConnectionHandler:
+    
+    def __init__(self):
+        self.device_ip_name = [
+        ]
+
     def discover_roku(self):
         # "HOST: 239.255.255.250:1900" means a multicast message header. SSDP is efficient so it doesn't use 
         # broadcasting. Port 1900 is the ssdp port
@@ -42,14 +47,13 @@ class ConnectionHandler:
 
         for roku_ip in devices:
             if self.roku_establish_connection(roku_ip):
-                print(self.get_roku_name(roku_ip))
-
+                entry={"type": "roku", "name": self.get_roku_name(roku_ip), "ip": roku_ip}
+                self.device_ip_name.append(entry) 
     
     def get_roku_name(self,ip):
         url = f'http://{ip}:8060/query/device-info'
         try:
             ret = requests.get(url, timeout=2)
-            print(ret.text)
             if ret.status_code == 200:
                 root = ET.fromstring(ret.text)
                 name = root.find("friendly-device-name").text

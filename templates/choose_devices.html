@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/firetv_style.css">
+    <title>Choose Devices</title>
+</head>
+<body>
+    <div class="header">
+            <h1>Select device from list</h1>
+            <p>List would include all Fire TV and Roku device names on your network</p>
+    </div>
+    <div class="connection-panel">
+        <form action="#" method="post">
+            <ul>
+            {% for device in devices %}
+                <li>
+                    <button class="btn btn-primary" name="device" value = "{{ device }}">{{ device.name }}</button>
+                </li>
+            {% endfor %}
+            </ul>
+        </form>
+    </div>
+</body>
