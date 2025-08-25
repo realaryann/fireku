@@ -30,8 +30,21 @@ class ConnectionHandler:
         # AF_INET = ipv4
         # SOCK_DGRAM = UDP
         # IPPROTO_UDP = udp
+        
+        # find local IP to bind to (windows solution)
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            # Does not send any data, just connects to a dummy address to get local IP
+            s.connect(('10.255.255.255', 1))
+            local_ip = s.getsockname()[0]
+        except Exception:
+            local_ip = '127.0.0.1'
+        finally:
+            s.close()
+
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.settimeout(3)
+        sock.bind((local_ip, 0))
         sock.sendto(msg, ("239.255.255.250", 1900))
 
         devices = []
@@ -41,7 +54,7 @@ class ConnectionHandler:
                 if b'roku:ecp' in data:
                     response = data.decode("utf-8")
                     devices.append(addr[0])
-            
+        
         except socket.timeout:
             pass
 
