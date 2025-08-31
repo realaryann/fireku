@@ -12,6 +12,8 @@ logger = logging.getLogger()
 class ConnectionHandler:
     
     def __init__(self):
+        self.devices = set()
+        self.remember_device = set()
         self.device_ip_name = [
         ]
 
@@ -47,21 +49,20 @@ class ConnectionHandler:
         sock.bind((local_ip, 0))
         sock.sendto(msg, ("239.255.255.250", 1900))
 
-        devices = []
         try:
             while True:
                 data, addr = sock.recvfrom(1024)
                 if b'roku:ecp' in data:
-                    response = data.decode("utf-8")
-                    devices.append(addr[0])
+                    self.devices.add(addr[0])
         
         except socket.timeout:
             pass
 
-        for roku_ip in devices:
-            if self.roku_establish_connection(roku_ip):
+        for roku_ip in self.devices:
+            if self.roku_establish_connection(roku_ip) and (roku_ip not in self.remember_device):
                 entry={"type": "roku", "name": self.get_roku_name(roku_ip), "ip": roku_ip}
                 self.device_ip_name.append(entry) 
+                self.remember_device.add(roku_ip)
     
     def get_roku_name(self,ip):
         url = f'http://{ip}:8060/query/device-info'
