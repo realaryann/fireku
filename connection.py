@@ -1,5 +1,6 @@
 import ipaddress
 import logging
+import re
 import subprocess
 import socket
 import requests
@@ -14,8 +15,26 @@ class ConnectionHandler:
     def __init__(self):
         self.devices = set()
         self.remember_device = set()
+        self.firetv_map = {}
         self.device_ip_name = [
         ]
+
+    def discover_firetv(self, text):
+        # Collect LOCATION header data
+        match = re.search(r'LOCATION:\s*(.+)', text, re.IGNORECASE)
+        if match:
+            location = match.group(1).strip()
+            # Browse the upnp schema to get firetv info
+            try:
+                r = requests.get(location, timeout=2)
+                xml = ET.fromstring(r.content)
+                name = xml.find('.//{urn:schemas-upnp-org:device-1-0}friendlyName')
+                if name is not None:
+                    return name.text
+                else:
+                    return None
+            except Exception as e:
+                logger.error(f"Failed to query {location}: {e}")
 
     def discover_roku(self):
         # "HOST: 239.255.255.250:1900" means a multicast message header. SSDP is efficient so it doesn't use 
@@ -25,7 +44,7 @@ class ConnectionHandler:
             "HOST: 239.255.255.250:1900",
             "MAN: ssdp:discover",
             "MX: 2",
-            "ST: roku:ecp",
+            "ST: urn:dial-multiscreen-org:service:dial:1",
             '',''
         ]).encode("utf-8")
 
@@ -52,18 +71,33 @@ class ConnectionHandler:
         try:
             while True:
                 data, addr = sock.recvfrom(1024)
-                if b'roku:ecp' in data:
+                data = data.decode("utf-8")
+                if 'Roku' in data:
                     self.devices.add(addr[0])
+                else:
+                    # Try to get a Fire TV's friendly name by using UPnP friendly device
+                    name = self.discover_firetv(data) 
+                    if name:
+                        self.firetv_map[addr[0]] = name
+                        self.devices.add(addr[0])
         
         except socket.timeout:
             pass
 
-        for roku_ip in self.devices:
-            if self.roku_establish_connection(roku_ip) and (roku_ip not in self.remember_device):
-                entry={"type": "roku", "name": self.get_roku_name(roku_ip), "ip": roku_ip}
+        for ip in self.devices:
+            # Try for Roku
+            if self.roku_establish_connection(ip) and (ip not in self.remember_device):
+                entry={"type": "roku", "name": self.get_roku_name(ip), "ip": ip}
                 self.device_ip_name.append(entry) 
-                self.remember_device.add(roku_ip)
-    
+                self.remember_device.add(ip)
+            # Try for FireTV
+            elif ip not in self.remember_device:
+                name = self.firetv_map[ip]
+                entry={"type": "firetv", "name": name, "ip": ip}
+                self.device_ip_name.append(entry) 
+                self.remember_device.add(ip)
+
+
     def get_roku_name(self,ip):
         url = f'http://{ip}:8060/query/device-info'
         try:
@@ -87,6 +121,7 @@ class ConnectionHandler:
         except Exception as e:
             logger.error(f"{Exception}: IPV4 address syntax not verified")
             return False
+        
 
     def roku_establish_connection(self, ROKU_IP) -> bool:
         try:
