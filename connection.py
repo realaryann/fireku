@@ -29,7 +29,8 @@ class ConnectionHandler:
                 r = requests.get(location, timeout=2)
                 xml = ET.fromstring(r.content)
                 name = xml.find('.//{urn:schemas-upnp-org:device-1-0}friendlyName')
-                if name is not None:
+                mf = xml.find('.//{urn:schemas-upnp-org:device-1-0}manufacturer')
+                if mf.text.lower() == 'amazon' and name is not None:
                     return name.text
                 else:
                     return None
@@ -79,6 +80,7 @@ class ConnectionHandler:
                     name = self.discover_firetv(data) 
                     if name:
                         self.firetv_map[addr[0]] = name
+                        # logger.info(f'{addr[0]} = {self.firetv_map[addr[0]]}')
                         self.devices.add(addr[0])
         
         except socket.timeout:
@@ -87,6 +89,7 @@ class ConnectionHandler:
         for ip in self.devices:
             # Try for Roku
             if self.roku_establish_connection(ip) and (ip not in self.remember_device):
+                # logger.info(f'{ip} = {self.get_roku_name(ip)}')
                 entry={"type": "roku", "name": self.get_roku_name(ip), "ip": ip}
                 self.device_ip_name.append(entry) 
                 self.remember_device.add(ip)
@@ -141,7 +144,7 @@ class ConnectionHandler:
                 logger.info(f'Request failed with status code {res.status_code}')
 
         except Exception as e:
-            logger.errore(e)
+            logger.error(e)
 
 
     def firetv_establish_connection(self, FIRESTICK_IP) -> bool:
