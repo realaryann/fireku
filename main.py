@@ -39,7 +39,9 @@ def choose_devices():
             return redirect(url_for("roku_page"))
         
         elif device_details["type"] == "firetv":
-            return redirect(url_for("firetv_page"))
+            FIRESTICK_IP = device_details["ip"]
+            if Conn.firetv_establish_connection(FIRESTICK_IP):
+                return redirect(url_for("firetv_page"))
 
     ret = cycle_ips()
     return render_template("choose_devices.html", devices=Conn.device_ip_name)
@@ -58,7 +60,7 @@ def roku_page():
 @app.route('/remote', methods=["GET", "POST"])
 def firetv_page():
     if request.method == "POST":
-        logger.debug(f"Sending Key: {request.form['button']}")
+        logger.info(f"Sending Key: {request.form['button']}")
         Conn.firetv_send_keycode(FIRE_KEYS[request.form["button"]])
     
     return render_template("firetv.html")

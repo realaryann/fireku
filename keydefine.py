@@ -14,7 +14,8 @@ FIRE_KEYS = {
     "volup": 24,
     "voldown": 25,
     "mute": 164,
-    "power": 26.
+    "power": 26,
+    "search": 84
 }
 
 ROKU_KEYS = {'Home' ,
