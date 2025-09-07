@@ -1,28 +1,17 @@
-# Project Name
-![Project Logo](logo.png) <!-- Optional -->
+# FireKu
 
-**One-line description:** A short, punchy summary of what your project does.
-
----
-
-## 🚀 Table of Contents
-- [About](#about)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+** Locally hosted, lightweight Flask application for Roku and FireTV for a LAN **
 
 ---
 
 ## 📝 About
-A more detailed description of your project:
-- What problem does it solve?
-- Why is it useful or different from alternatives?
-- Optional: tech stack, architecture, or underlying ideas.
 
+FireKu bundles virtual remotes for Roku and FireTV into a single application. It offers automatic device
+discovery on a LAN using the SSDP, part of the UPnP family of UDP protocols using port 1900. 
+
+The backend service is split into two:
+1) Roku: It utilizes the Roku REST API/ECP to POST required button commands to the device ip and port
+2) FireTV: It utilizes the Android Debug Bridge to spin subprocesses to send button values to the FireTV ip.
 ---
 
 ## ✨ Features
@@ -33,7 +22,7 @@ A more detailed description of your project:
 ---
 
 ## 💻 Installation
-Step-by-step instructions to set up the project locally:
+
 
 ```bash
 # Clone the repository
