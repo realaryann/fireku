@@ -1,6 +1,6 @@
 # FireKu
 
-** Locally hosted, lightweight Flask application for Roku and FireTV for a LAN **
+**Locally hosted, lightweight Flask application for Roku and FireTV for a LAN**
 
 ---
 
@@ -15,22 +15,63 @@ The backend service is split into two:
 ---
 
 ## ✨ Features
-- Feature 1 – Brief explanation
-- Feature 2 – Brief explanation
-- Feature 3 – Brief explanation
+- **Automatic Device Discovery** – FireKu utilizes UDP packets to discover FireTVs and Rokus on a private network and shows a dropdown list to select between your desired device
+- **Remote Landing page** – FireKu has dedicated landing pages for FireTV and Roku with their own respective styles 
+- **Fast, efficient communication** - FireKu uses the official ECP/Roku REST API to communicate with your device efficiently.
 
 ---
 
-## 💻 Installation
+## 💻 Installation and Usage
 
+## Windows, MacOS, Linux (1)
 
 ```bash
 # Clone the repository
-git clone https://github.com/username/project.git
+git clone git@github.com:realaryann/fireku.git
 
 # Navigate into the project folder
-cd project
+cd fireku
+
+# [OPTIONAL] Create a venv
+python -m venv venv
+
+# [OPTIONAL] utilize venv
+.venv\src\Activate # Windows
+
+source .venv/bin/activate # Mac, Linux
 
 # Install dependencies
-# Example for Python projects
 pip install -r requirements.txt
+
+# Run Flask application
+python main.py
+
+# Navigate to application
+localhost:5001
+```
+
+## Linux (2) - Dockerfile based
+
+```bash
+
+# Clone the repository
+git clone git@github.com:realaryann/fireku.git
+
+# Navigate into the project folder
+cd fireku
+
+# Create a docker image
+docker build -t yourusername/fireku .
+
+# Run docker image with networkhost
+docker run --network host -p 8888:5001 -d --name fireku yourusername/fireku
+
+# Navigate to port 8888 on localhost
+localhost:8888
+
+# Stop docker container 
+docker stop fireku
+
+# Prune if necessary
+docker container prune
+```
