@@ -1,6 +1,6 @@
 # FireKu
 
-**Locally hosted, lightweight Flask application for Roku and FireTV for a LAN**
+**Locally hosted, lightweight Flask application for Roku and FireTV remotes under a LAN**
 
 ---
 
