@@ -18,6 +18,14 @@ FIRE_KEYS = {
     "search": 84
 }
 
+ROKU_MAPPING = { 
+    'ArrowUp':'Up',
+    'ArrowDown':'Down',
+    'ArrowLeft':'Left',
+    'ArrowRight':'Right',
+    'Enter':'Play'
+}
+
 ROKU_KEYS = {'Home' ,
   'Rev',
   'Fwd',

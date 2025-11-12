@@ -8,7 +8,17 @@
 </head>
 <body>
     <form action="#" method="post">
+        <div class = "controls">
+            <ul>
+                <li>Arrow up : Up</li>
+                <li>Arrow Down : Down</li>
+                <li>Arrow Left : Left</li>
+                <li>Arrow Right : Right</li>
+                <li>Enter : Play/Pause</li>
+            </ul>
+        </div>
         <div class="container">
+            
             <div class="remote">
                 <!-- Remote Header -->
                 <div class="header">
@@ -78,5 +88,15 @@
             </div>
         </div>
     </form>
+    <script>
+    document.addEventListener("keydown", (event) => {
+    // fire-and-forget POST request
+    fetch("/roku_keypress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: event.key })
+    });
+});
+</script>
 </body>
 </html>

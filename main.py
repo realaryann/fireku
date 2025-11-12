@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, jsonify
 import ast
 from connection import *
 from keydefine import *
@@ -46,6 +46,15 @@ def choose_devices():
     ret = cycle_ips()
     return render_template("choose_devices.html", devices=Conn.device_ip_name)
 
+
+@app.route("/roku_keypress", methods=["POST"])
+def roku_keypress():
+    data = request.get_json()
+    key = data.get("key")
+    if key in ROKU_MAPPING:
+        logger.debug(f"Sending Key: {ROKU_MAPPING[key]}")
+        Conn.roku_send_keycode(ROKU_IP=ROKU_IP, keycode=ROKU_MAPPING[key])
+    return render_template("roku.html")
 
 @app.route("/roku", methods=["GET", "POST"])
 def roku_page():
