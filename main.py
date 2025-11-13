@@ -47,6 +47,17 @@ def choose_devices():
     return render_template("choose_devices.html", devices=Conn.device_ip_name)
 
 
+@app.route('/firetv_keypress', methods=["POST"])
+def firetv_keypress():
+    data = request.get_json()
+    key = data.get("key")
+    if key in FIRETV_MAPPING:
+        logger.info(f"Sending Key: {key}")
+        Conn.firetv_send_keycode(FIRE_KEYS[FIRETV_MAPPING[key]])
+    
+    return render_template("firetv.html")
+
+
 @app.route("/roku_keypress", methods=["POST"])
 def roku_keypress():
     data = request.get_json()

@@ -18,6 +18,14 @@ FIRE_KEYS = {
     "search": 84
 }
 
+FIRETV_MAPPING = {
+    'ArrowUp':"up",
+    'ArrowDown':'down',
+    'ArrowLeft':'left',
+    'ArrowRight':'right',
+    'Enter':'play'
+}
+
 ROKU_MAPPING = { 
     'ArrowUp':'Up',
     'ArrowDown':'Down',

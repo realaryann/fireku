@@ -67,4 +67,14 @@
             </div>
         </div>
     </form>
+    <script>
+    document.addEventListener("keydown", (event) => {
+    // fire-and-forget POST request
+    fetch("/firetv_keypress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: event.key })
+    });
+});
+</script>
 </body>
