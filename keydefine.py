@@ -31,7 +31,8 @@ ROKU_MAPPING = {
     'ArrowDown':'Down',
     'ArrowLeft':'Left',
     'ArrowRight':'Right',
-    'Enter':'Play'
+    'Enter':'Select',
+    ' ':'Play'
 }
 
 ROKU_KEYS = {'Home' ,
